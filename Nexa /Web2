@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexa Broadcast | Photography • Live Streaming • Event Production</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-card: #16161f;
+            --bg-card-hover: #1c1c28;
+            --text-primary: #e8e8f0;
+            --text-secondary: #b0b0be;
+            --text-muted: #8888a0;
+            --accent: #00c6e0;
+            --accent-glow: #00e5ff;
+            --accent2: #7b4fff;
+            --accent2-glow: #9d6fff;
+            --border: #252535;
+            --border-light: #2a2a3a;
+            --gradient-hero: linear-gradient(135deg, #0a0a18 0%, #0d1025 30%, #0a0f20 60%, #060610 100%);
+            --gradient-accent: linear-gradient(135deg, #00c6e0 0%, #00a8c5 50%, #0099b8 100%);
+            --gradient-accent2: linear-gradient(135deg, #7b4fff 0%, #5c3fd4 100%);
+            --gradient-card: linear-gradient(145deg, #1a1a28 0%, #151520 100%);
+            --shadow-glow: 0 0 40px rgba(0, 198, 224, 0.15);
+            --shadow-glow-strong: 0 0 60px rgba(0, 198, 224, 0.25);
+            --radius-sm: 8px;
+            --radius: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-heading: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============ NAVIGATION ============ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 14px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 18, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .nav-logo .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-accent);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(0, 198, 224, 0.4);
+            transition: var(--transition);
+        }
+
+        .nav-logo:hover .logo-icon {
+            box-shadow: 0 0 40px rgba(0, 198, 224, 0.7);
+            transform: scale(1.05);
+        }
+
+        .nav-logo .logo-text {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+
+        .nav-logo .logo-text span {
+            color: var(--accent-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 9px 18px;
+            border-radius: 25px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: var(--transition);
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-links a.nav-cta {
+            background: var(--gradient-accent);
+            color: #000;
+            font-weight: 600;
+            padding: 10px 22px;
+            box-shadow: 0 0 20px rgba(0, 198, 224, 0.3);
+        }
+
+        .nav-links a.nav-cta:hover {
+            box-shadow: 0 0 35px rgba(0, 198, 224, 0.55);
+            transform: translateY(-1px);
+            background: var(--gradient-accent);
+            color: #000;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            background: none;
+            border: none;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2.5px;
+            background: #fff;
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-hero);
+            overflow: hidden;
+            padding: 120px 30px 80px;
+        }
+
+        .hero-bg-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .hero-bg-particles .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0;
+            animation: floatUp 8s infinite;
+        }
+
+        .hero-bg-particles .particle:nth-child(1) {
+            width: 4px;
+            height: 4px;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 7s;
+        }
+        .hero-bg-particles .particle:nth-child(2) {
+            width: 2px;
+            height: 2px;
+            left: 25%;
+            animation-delay: 2s;
+            animation-duration: 9s;
+        }
+        .hero-bg-particles .particle:nth-child(3) {
+            width: 6px;
+            height: 6px;
+            left: 40%;
+            animation-delay: 4s;
+            animation-duration: 6s;
+        }
+        .hero-bg-particles .particle:nth-child(4) {
+            width: 3px;
+            height: 3px;
+            left: 55%;
+            animation-delay: 1s;
+            animation-duration: 8s;
+        }
+        .hero-bg-particles .particle:nth-child(5) {
+            width: 5px;
+            height: 5px;
+            left: 70%;
+            animation-delay: 3s;
+            animation-duration: 10s;
+        }
+        .hero-bg-particles .particle:nth-child(6) {
+            width: 2px;
+            height: 2px;
+            left: 85%;
+            animation-delay: 5s;
+            animation-duration: 7.5s;
+        }
+        .hero-bg-particles .particle:nth-child(7) {
+            width: 7px;
+            height: 7px;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 11s;
+        }
+        .hero-bg-particles .particle:nth-child(8) {
+            width: 3px;
+            height: 3px;
+            left: 60%;
+            animation-delay: 2.5s;
+            animation-duration: 8.5s;
+        }
+
+        @keyframes floatUp {
+            0% {
+                bottom: -40px;
+                opacity: 0;
+                transform: translateX(0) scale(0.5);
+            }
+            20% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateX(30px) scale(1.3);
+            }
+            80% {
+                opacity: 0.2;
+            }
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(-20px) scale(0.3);
+            }
+        }
+
+        .hero-glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-glow-orb.orb-1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(0, 198, 224, 0.08);
+            top: -150px;
+            right: -100px;
+            animation: orbPulse 6s ease-in-out infinite;
+        }
+
+        .hero-glow-orb.orb-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(123, 79, 255, 0.07);
+            bottom: -100px;
+            left: -80px;
+            animation: orbPulse 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes orbPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.25);
+                opacity: 1;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 850px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 198, 224, 0.1);
+            border: 1px solid rgba(0, 198, 224, 0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent-glow);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-content h1 .highlight {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 36px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 198, 224, 0.35);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 50px rgba(0, 198, 224, 0.6);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 2px solid var(--border-light);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            background: rgba(0, 198, 224, 0.06);
+            box-shadow: 0 0 25px rgba(0, 198, 224, 0.15);
+        }
+        .btn-accent2 {
+            background: var(--gradient-accent2);
+            color: #fff;
+            box-shadow: 0 0 25px rgba(123, 79, 255, 0.35);
+        }
+        .btn-accent2:hover {
+            box-shadow: 0 0 45px rgba(123, 79, 255, 0.55);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============ SECTION COMMONS ============ */
+        .section {
+            padding: 100px 30px;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-glow);
+            margin-bottom: 12px;
+            background: rgba(0, 198, 224, 0.08);
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            margin-bottom: 14px;
+            line-height: 1.2;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+
+        /* ============ SERVICES ============ */
+        #services {
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        #services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .service-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 26px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(0, 198, 224, 0.03) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .service-card:hover {
+            border-color: rgba(0, 198, 224, 0.35);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-glow);
+            background: var(--bg-card-hover);
+        }
+        .service-card:hover::after {
+            opacity: 1;
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .service-icon.cyan {
+            background: rgba(0, 198, 224, 0.12);
+            color: var(--accent-glow);
+        }
+        .service-icon.purple {
+            background: rgba(123, 79, 255, 0.12);
+            color: var(--accent2-glow);
+        }
+        .service-icon.green {
+            background: rgba(0, 224, 160, 0.12);
+            color: #00e0a0;
+        }
+        .service-icon.orange {
+            background: rgba(255, 160, 60, 0.12);
+            color: #ffa03c;
+        }
+        .service-icon.pink {
+            background: rgba(255, 80, 140, 0.12);
+            color: #ff508c;
+        }
+        .service-icon.yellow {
+            background: rgba(255, 210, 50, 0.12);
+            color: #ffd232;
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ============ PLATFORMS STRIP ============ */
+        .platforms-strip {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .platforms-strip .label {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .platform-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .platform-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.2rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .platform-icon span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .platform-icon:hover {
+            color: #fff;
+            transform: translateY(-4px);
+        }
+        .platform-icon.yt:hover {
+            color: #ff0000;
+        }
+        .platform-icon.fb:hover {
+            color: #1877f2;
+        }
+        .platform-icon.ig:hover {
+            color: #e4405f;
+        }
+        .platform-icon.tw:hover {
+            color: #9146ff;
+        }
+        .platform-icon.li:hover {
+            color: #0a66c2;
+        }
+        .platform-icon.x:hover {
+            color: #fff;
+        }
+
+        /* ============ EQUIPMENT / DOME SHOWCASE ============ */
+        #equipment {
+            background: var(--bg-primary);
+            position: relative;
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .equipment-visual {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            aspect-ratio: 1 / 0.85;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .dome-display {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .dome-display .dome-icon-wrap {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
+            background: radial-gradient(circle at center, rgba(0, 198, 224, 0.2) 0%, rgba(0, 198, 224, 0.02) 70%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(0, 198, 224, 0.4);
+            animation: domePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes domePulse {
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(0, 198, 224, 0.2);
+                border-color: rgba(0, 198, 224, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(0, 198, 224, 0.5);
+                border-color: rgba(0, 198, 224, 0.8);
+            }
+        }
+
+        .dome-display .dome-icon-wrap i {
+            font-size: 60px;
+            color: var(--accent-glow);
+        }
+
+        .dome-display h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+        .dome-display .sub {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .equipment-info h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+        .equipment-info p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .equipment-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .equipment-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .equipment-list li i {
+            color: var(--accent-glow);
+            font-size: 0.7rem;
+        }
+
+        .social-links-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .social-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 18px;
+            border-radius: 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .social-link-btn:hover {
+            border-color: var(--accent);
+            color: #fff;
+            background: var(--bg-card-hover);
+            box-shadow: 0 0 20px rgba(0, 198, 224, 0.2);
+        }
+        .social-link-btn i {
+            font-size: 1rem;
+        }
+
+        /* ============ EVENTS SECTION ============ */
+        #events {
+            background: var(--bg-secondary);
+            position: relative;
+        }
+        #events::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+        }
+
+        .event-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            transition: var(--transition);
+            text-align: center;
+        }
+        .event-card:hover {
+            border-color: rgba(123, 79, 255, 0.35);
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(123, 79, 255, 0.15);
+        }
+        .event-card .event-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+            color: var(--accent2-glow);
+        }
+        .event-card h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+        .event-card p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        /* ============ EXPERTS / TEAM ============ */
+        #experts {
+            background: var(--bg-primary);
+        }
+
+        .experts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+            text-align: center;
+        }
+
+        .expert-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px 20px;
+            transition: var(--transition);
+        }
+        .expert-card:hover {
+            border-color: rgba(0, 198, 224, 0.35);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+        .expert-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #fff;
+        }
+        .expert-avatar.av1 {
+            background: linear-gradient(135deg, #00c6e0, #0099b8);
+        }
+        .expert-avatar.av2 {
+            background: linear-gradient(135deg, #7b4fff, #5c3fd4);
+        }
+        .expert-avatar.av3 {
+            background: linear-gradient(135deg, #ff508c, #d43f6e);
+        }
+        .expert-avatar.av4 {
+            background: linear-gradient(135deg, #00e0a0, #00b87a);
+        }
+        .expert-card h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .expert-card .role {
+            color: var(--accent-glow);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .expert-card .bio {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            margin-top: 8px;
+        }
+
+        /* ============ CTA BANNER ============ */
+        .cta-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(0, 198, 224, 0.04);
+            border-radius: 50%;
+            top: -100px;
+            right: -80px;
+            pointer-events: none;
+        }
+        .cta-banner h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner .btn {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============ CONTACT ============ */
+        #contact {
+            background: var(--bg-secondary);
+        }
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .contact-info h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .contact-detail i {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 198, 224, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-glow);
+            flex-shrink: 0;
+        }
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            resize: vertical;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 198, 224, 0.08);
+        }
+        .form-group textarea {
+            min-height: 100px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 40px 30px 20px;
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .footer-logo .logo-icon-sm {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff;
+        }
+        .footer-logo .logo-text-sm {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover {
+            color: #fff;
+        }
+        .footer-social {
+            display: flex;
+            gap: 14px;
+        }
+        .footer-social a {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        .footer-social a:hover {
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 198, 224, 0.25);
+        }
+        .footer-bottom {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            margin-top: 10px;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .equipment-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .equipment-visual {
+                aspect-ratio: 1 / 0.6;
+            }
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: rgba(16, 16, 24, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 100px 30px 30px;
+                gap: 6px;
+                transition: var(--transition);
+                border-left: 1px solid var(--border);
+                z-index: 1000;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links a {
+                display: block;
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hero {
+                padding: 100px 20px 60px;
+                min-height: auto;
+            }
+            .section {
+                padding: 60px 20px;
+            }
+            .equipment-list {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .equipment-visual {
+                aspect-ratio: 1 / 0.65;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.85rem;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            .experts-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .platform-icons {
+                gap: 18px;
+            }
+            .platform-icon {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <div class="logo-icon"><i class="fa-solid fa-broadcast-tower"></i></div>
+                <span class="logo-text">Nexa<span>Broadcast</span></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#equipment">Equipment</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#experts">Experts</a></li>
+                <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero" id="home">
+        <div class="hero-bg-particles">
+            <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+            <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+            <div class="particle"></div><div class="particle"></div>
+        </div>
+        <div class="hero-glow-orb orb-1"></div>
+        <div class="hero-glow-orb orb-2"></div>
+        <div class="hero-content">
+            <div class="hero-badge">📡 Professional Broadcast Solutions</div>
+            <h1>Bringing Your Vision <span class="highlight">To Life</span></h1>
+            <p>
+                Nexa Broadcast delivers premium photography, cinematic video graphics, expert editing,
+                short-form video shoots, and multi-platform live broadcasting — all powered by
+                cutting-edge digital equipment and a team of seasoned technical professionals.
+            </p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary"><i class="fa-solid fa-grid-2"></i> Explore Services</a>
+                <a href="#equipment" class="btn btn-outline"><i class="fa-solid fa-microchip"></i> View Our Gear</a>
+                <a href="#contact" class="btn btn-accent2"><i class="fa-solid fa-paper-plane"></i> Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== LIVE STREAMING PLATFORMS STRIP ==================== -->
+    <div class="platforms-strip">
+        <p class="label">We Broadcast Live On</p>
+        <div class="platform-icons">
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="platform-icon yt" title="YouTube Live">
+                <i class="fa-brands fa-youtube"></i><span>YouTube</span>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener" class="platform-icon fb" title="Facebook Live">
+                <i class="fa-brands fa-facebook"></i><span>Facebook</span>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="platform-icon ig" title="Instagram Live">
+                <i class="fa-brands fa-instagram"></i><span>Instagram</span>
+            </a>
+            <a href="https://twitch.tv" target="_blank" rel="noopener" class="platform-icon tw" title="Twitch">
+                <i class="fa-brands fa-twitch"></i><span>Twitch</span>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" class="platform-icon li" title="LinkedIn Live">
+                <i class="fa-brands fa-linkedin-in"></i><span>LinkedIn</span>
+            </a>
+            <a href="https://x.com" target="_blank" rel="noopener" class="platform-icon x" title="X / Twitter Live">
+                <i class="fa-brands fa-x-twitter"></i><span>X Live</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== SERVICES SECTION ==================== -->
+    <section class="section" id="services">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">What We Do</span>
+                <h2>Comprehensive Media & Broadcast Services</h2>
+                <p>From concept to live delivery — we cover every aspect of modern visual media production.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon cyan"><i class="fa-solid fa-camera-retro"></i></div>
+                    <h3>Photography</h3>
+                    <p>High-resolution commercial, event & creative photography with professional DSLR and mirrorless rigs.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon purple"><i class="fa-solid fa-film"></i></div>
+                    <h3>Video Graphics</h3>
+                    <p>Motion graphics, animated overlays, lower-thirds, and visual effects for broadcast-quality production.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon green"><i class="fa-solid fa-scissors"></i></div>
+                    <h3>Video Editing</h3>
+                    <p>Professional post-production — colour grading, sound design, transitions & multi-cam editing.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon orange"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3>Short Video Shoot</h3>
+                    <p>Reels, TikToks, YouTube Shorts — vertical video optimized for social media engagement.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon pink"><i class="fa-solid fa-satellite-dish"></i></div>
+                    <h3>Live Broadcast</h3>
+                    <p>Multi-platform streaming to YouTube, Facebook, Twitch & more with redundant backup feeds.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon yellow"><i class="fa-solid fa-lightbulb"></i></div>
+                    <h3>Light & Sound</h3>
+                    <p>Professional lighting rigs, audio engineering, PA systems for events of any scale.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EQUIPMENT / DOME SECTION ==================== -->
+    <section class="section" id="equipment">
+        <div class="section-container">
+            <div class="equipment-grid">
+                <div class="equipment-visual">
+                    <div class="dome-display">
+                        <div class="dome-icon-wrap">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h3>The Dome Studio</h3>
+                        <p class="sub">Our state-of-the-art production hub</p>
+                    </div>
+                </div>
+                <div class="equipment-info">
+                    <span class="section-tag">Our Arsenal</span>
+                    <h2>Latest Digital Equipment & Gadgets</h2>
+                    <p>
+                        We invest continuously in the newest technology so your content looks and sounds
+                        world-class. Take a virtual tour of <strong>The Dome</strong> — our dedicated
+                        production studio — by visiting our social media accounts.
+                    </p>
+                    <ul class="equipment-list">
+                        <li><i class="fa-solid fa-check-circle"></i> 4K / 8K Cinema Cameras</li>
+                        <li><i class="fa-solid fa-check-circle"></i> Professional Drone Fleet</li>
+                        <li><i class="fa-solid fa-check-circle"></i> Gimbal Stabilizers</li>
+                        <li><i class="fa-solid fa-check-circle"></i> Wireless Audio Systems</li>
+                        <li><i class="fa-solid fa-check-circle"></i> LED Panel Lighting</li>
+                        <li><i class="fa-solid fa-check-circle"></i> Live Switching Consoles</li>
+                        <li><i class="fa-solid fa-check-circle"></i> Green Screen Cyclorama</li>
+                        <li><i class="fa-solid fa-check-circle"></i> High-Speed Internet Bonding</li>
+                    </ul>
+                    <div class="social-links-row">
+                        <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link-btn">
+                            <i class="fa-brands fa-instagram"></i> Instagram — See The Dome
+                        </a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener" class="social-link-btn">
+                            <i class="fa-brands fa-youtube"></i> YouTube — Studio Tour
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" class="social-link-btn">
+                            <i class="fa-brands fa-facebook"></i> Facebook — Behind The Scenes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EVENT MANAGEMENT SECTION ==================== -->
+    <section class="section" id="events">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Event Production</span>
+                <h2>Small Event Management — Light, Sound & Tech</h2>
+                <p>
+                    We handle the technical heavy lifting so you can focus on your event.
+                    Complete production support with professional-grade equipment and crew.
+                </p>
+            </div>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <h3>Lighting Design</h3>
+                    <p>Atmospheric wash lights, spotlights, uplighting & intelligent DMX-controlled fixtures for any venue.</p>
+                </div>
+                <div class="event-card">
+                    <div class="event-icon"><i class="fa-solid fa-volume-high"></i></div>
+                    <h3>Sound Reinforcement</h3>
+                    <p>Crystal-clear PA systems, wireless mics, in-ear monitors & live audio mixing for audiences up to 500.</p>
+                </div>
+                <div class="event-card">
+                    <div class="event-icon"><i class="fa-solid fa-video"></i></div>
+                    <h3>Live Video Feed</h3>
+                    <p>Multi-camera live switching, IMAG screens, and simultaneous web streaming for hybrid events.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TECHNICAL EXPERTS SECTION ==================== -->
+    <section class="section" id="experts">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Our Team</span>
+                <h2>Professional Technical Experts</h2>
+                <p>Seasoned specialists who bring years of broadcast and production experience to every project.</p>
+            </div>
+            <div class="experts-grid">
+                <div class="expert-card">
+                    <div class="expert-avatar av1"><i class="fa-solid fa-user-tie"></i></div>
+                    <h3>Arjun Mehta</h3>
+                    <p class="role">Lead Cinematographer</p>
+                    <p class="bio">10+ years in commercial & broadcast cinematography. Drone pilot & colour grading specialist.</p>
+                </div>
+                <div class="expert-card">
+                    <div class="expert-avatar av2"><i class="fa-solid fa-user-gear"></i></div>
+                    <h3>Priya Sharma</h3>
+                    <p class="role">Live Stream Engineer</p>
+                    <p class="bio">Expert in RTMP, SRT & multi-platform delivery. Handles complex hybrid event streaming.</p>
+                </div>
+                <div class="expert-card">
+                    <div class="expert-avatar av3"><i class="fa-solid fa-user-pen"></i></div>
+                    <h3>Rohan Das</h3>
+                    <p class="role">Post-Production Lead</p>
+                    <p class="bio">Editor & motion graphics artist. Proficient in DaVinci Resolve, Premiere Pro & After Effects.</p>
+                </div>
+                <div class="expert-card">
+                    <div class="expert-avatar av4"><i class="fa-solid fa-user-shield"></i></div>
+                    <h3>Sneha Kapoor</h3>
+                    <p class="role">Audio & Lighting Tech</p>
+                    <p class="bio">Sound engineering & DMX lighting programming for live events, concerts & corporate shows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA BANNER ==================== -->
+    <section class="section" style="padding-top: 0;">
+        <div class="section-container">
+            <div class="cta-banner">
+                <h2>Ready to Create Something Amazing?</h2>
+                <p>Whether it's a live broadcast, a product shoot, or a fully managed event — Nexa Broadcast has the gear, the crew, and the expertise.</p>
+                <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-calendar-check"></i> Book Your Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section class="section" id="contact">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Get In Touch</span>
+                <h2>Let's Discuss Your Project</h2>
+                <p>Fill out the form and our team will get back to you within 24 hours.</p>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h2>Nexa Broadcast</h2>
+                    <p>Your one-stop solution for photography, video production, live streaming & event technicals.</p>
+                    <div class="contact-detail">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>The Dome Studio, Nexa Broadcast HQ — Mumbai, India</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>hello@nexabroadcast.com</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div class="social-links-row" style="margin-top: 20px;">
+                        <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link-btn">
+                            <i class="fa-brands fa-instagram"></i> Instagram
+                        </a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener" class="social-link-btn">
+                            <i class="fa-brands fa-youtube"></i> YouTube
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" class="social-link-btn">
+                            <i class="fa-brands fa-facebook"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+91 00000 00000">
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Interested In</label>
+                            <select id="service">
+                                <option value="">Select a service...</option>
+                                <option value="photography">Photography</option>
+                                <option value="video-graphics">Video Graphics</option>
+                                <option value="editing">Video Editing</option>
+                                <option value="short-video">Short Video Shoot</option>
+                                <option value="live-broadcast">Live Broadcast</option>
+                                <option value="event-management">Event Management (Light & Sound)</option>
+                                <option value="other">Other / Multiple</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Tell Us About Your Project *</label>
+                        <textarea id="message" placeholder="Describe what you need — event date, platform, scope, etc." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                        <i class="fa-solid fa-paper-plane"></i> Send Enquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="#home" class="footer-logo">
+                <div class="logo-icon-sm"><i class="fa-solid fa-broadcast-tower"></i></div>
+                <span class="logo-text-sm">Nexa<span style="color:#00c6e0;">Broadcast</span></span>
+            </a>
+            <ul class="footer-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#equipment">Equipment</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#experts">Experts</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="footer-social">
+                <a href="https://youtube.com" target="_blank" rel="noopener" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://facebook.com" target="_blank" rel="noopener" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://twitch.tv" target="_blank" rel="noopener" title="Twitch"><i class="fa-brands fa-twitch"></i></a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+            <p class="footer-bottom">&copy; 2026 Nexa Broadcast. All rights reserved. | Photography • Live Streaming • Event Production</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields (Name, Email, and Message).');
+                return;
+            }
+
+            // Simulate form submission
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalHTML = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                alert(
+                    `✅ Thank you, ${name}! Your enquiry has been received.\n\nService: ${service || 'Not specified'}\n\nOur team at Nexa Broadcast will get back to you at ${email} within 24 hours.`);
+                contactForm.reset();
+                submitBtn.innerHTML = originalHTML;
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+
+        // Smooth scroll for all anchor links (fallback for older browsers)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for subtle entrance animations
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .event-card, .expert-card, .equipment-visual, .cta-banner').forEach(
+        el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(25px)';
+            el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            observer.observe(el);
+        });
+
+        // Trigger initial state — reveal immediately if already in view
+        setTimeout(() => {
+            document.querySelectorAll(
+                '.service-card, .event-card, .expert-card, .equipment-visual, .cta-banner').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        }, 200);
+    </script>
+</body>
+</html>
